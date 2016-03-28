@@ -25,7 +25,7 @@ class HomePageComponent extends React.Component {
       <div>
       <div className="container">
       <div className="page-header">
-        <h1>Electron Boilerplate React</h1>
+        <h1>Express React Boilerplate</h1>
       </div>
       <button  label={'运行'} secondary={true} onClick={this.startRun.bind(this)}/>
       </div>

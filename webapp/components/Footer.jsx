@@ -7,7 +7,7 @@ class FooterComponent extends React.Component {
     return (
      <div id="footer">
       <div className="container">
-        <p className="text-muted">Cosplay主题包管理.</p>
+        <p className="text-muted">Express React Boilerplate.</p>
       </div>
     </div>
     );

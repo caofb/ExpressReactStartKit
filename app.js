@@ -37,7 +37,7 @@ var app = express();
 /**
  * Connect to MongoDB.
  */
-mongoose.connect('mongodb://192.168.109.132:27017/test');
+mongoose.connect('mongodb://127.0.0.1:27017/test');
 mongoose.connection.on('error', function() {
   console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
   process.exit(1);
@@ -60,7 +60,7 @@ app.use(session({
   saveUninitialized: true,
   secret: process.env.SESSION_SECRET||'dfdffsddfs',
   store: new MongoStore({
-    url: 'mongodb://192.168.109.132:27017/test',
+    url: 'mongodb://127.0.0.1:27017/test',
     autoReconnect: true
   })
 }));

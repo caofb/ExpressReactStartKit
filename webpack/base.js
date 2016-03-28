@@ -20,8 +20,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/../dist'),
     filename: 'app.js',
-    publicPath: publicPath,
-    libraryTarget: 'commonjs2'
+    publicPath: publicPath
   },
   devServer: {
     contentBase: './webapp/',
@@ -35,6 +34,7 @@ module.exports = {
     extensions: ['', '.js', '.jsx'],
     alias: {
       actions: srcPath + '/actions/',
+      containers: srcPath + '/containers/',
       components: srcPath + '/components/',
       stores: srcPath + '/stores/',
       styles: srcPath + '/styles/'
