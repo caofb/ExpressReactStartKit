@@ -3,7 +3,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 
-class HomePageComponent extends React.Component {
+class ToDoPageComponent extends React.Component {
   constructor(props) {
         super(props);
 
@@ -24,7 +24,7 @@ class HomePageComponent extends React.Component {
       <div>     
       <div>
       <div className="page-header">
-        <h1>Express React Boilerplate</h1>
+        <h1>Express React Boilerplate ToDo</h1>
       </div>
       </div>
       </div>
@@ -32,7 +32,7 @@ class HomePageComponent extends React.Component {
   }
 }
 
-HomePageComponent.defaultProps = {
+ToDoPageComponent.defaultProps = {
     dispatch: React.PropTypes.func.isRequired
 };
 function mapStateToProps(state) {
@@ -41,5 +41,5 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps)(HomePageComponent);
+export default connect(mapStateToProps)(ToDoPageComponent);
 

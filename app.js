@@ -15,19 +15,20 @@ var passport = require('passport');
 var expressValidator = require('express-validator');
 var multer = require('multer');
 var upload = multer({ dest: path.join(__dirname, 'uploads') });
-
+var userSchema=require('./server/models/User');
 
 /**
  * Controllers (route handlers).
  */
-var homeController = require('./controllers/home');
-var userController = require('./controllers/user');
-var contactController = require('./controllers/contact');
+var homeController = require('./server/controllers/home');
+var userController = require('./server/controllers/user');
+var accountController = require('./server/controllers/account');
+var contactController = require('./server/controllers/contact');
 
 /**
  * API keys and Passport configuration.
  */
-var passportConfig = require('./config/passport');
+var passportConfig = require('./server/config/passport');
 
 /**
  * Create Express server.
@@ -37,7 +38,7 @@ var app = express();
 /**
  * Connect to MongoDB.
  */
-mongoose.connect('mongodb://127.0.0.1:27017/test');
+mongoose.connect('mongodb://192.168.109.132:27017/test');
 mongoose.connection.on('error', function() {
   console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
   process.exit(1);
@@ -60,19 +61,19 @@ app.use(session({
   saveUninitialized: true,
   secret: process.env.SESSION_SECRET||'dfdffsddfs',
   store: new MongoStore({
-    url: 'mongodb://127.0.0.1:27017/test',
+    url: 'mongodb://192.168.109.132:27017/test',
     autoReconnect: true
   })
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(function(req, res, next) {
+/*app.use(function(req, res, next) {
   if (req.path === '/api/upload') {
     next();
   } else {
     lusca.csrf()(req, res, next);
   }
-});
+});*/
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
 app.use(function(req, res, next) {
@@ -91,10 +92,11 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
 /**
  * Primary app routes.
  */
+app.use('/api/account',accountController);
 app.get('/', homeController.index);
-app.get('/login', userController.getLogin);
+/*app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
-app.get('/logout', userController.logout);
+app.get('/logout', userController.logout);*/
 app.get('/forgot', userController.getForgot);
 app.post('/forgot', userController.postForgot);
 app.get('/reset/:token', userController.getReset);
@@ -108,6 +110,54 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 
+/*app.use(function(req, res) {
+  if (__DEVELOPMENT__) {
+    // Do not cache webpack stats: the script file would change since
+    // hot module replacement is enabled in the development env
+    webpackIsomorphicTools.refresh();
+  }
+  const client = new ApiClient(req);
+  const history = createHistory(req.originalUrl);
+
+  const store = createStore(history, client);
+
+  function hydrateOnClient() {
+    res.send('<!doctype html>\n' +
+      ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} store={store}/>));
+  }
+
+  if (__DISABLE_SSR__) {
+    hydrateOnClient();
+    return;
+  }
+
+  match({ history, routes: getRoutes(store), location: req.originalUrl }, (error, redirectLocation, renderProps) => {
+    if (redirectLocation) {
+      res.redirect(redirectLocation.pathname + redirectLocation.search);
+    } else if (error) {
+      console.error('ROUTER ERROR:', pretty.render(error));
+      res.status(500);
+      hydrateOnClient();
+    } else if (renderProps) {
+      loadOnServer({...renderProps, store, helpers: {client}}).then(() => {
+        const component = (
+          <Provider store={store} key="provider">
+            <ReduxAsyncConnect {...renderProps} />
+          </Provider>
+        );
+
+        res.status(200);
+
+        global.navigator = {userAgent: req.headers['user-agent']};
+
+        res.send('<!doctype html>\n' +
+          ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} component={component} store={store}/>));
+      });
+    } else {
+      res.status(404).send('Not found');
+    }
+  });
+});*/
 /**
  * Error Handler.
  */
@@ -119,5 +169,5 @@ app.use(errorHandler());
 app.listen(app.get('port'), function() {
   console.log('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
 });
-
+userSchema.initialAdmin();
 module.exports = app;

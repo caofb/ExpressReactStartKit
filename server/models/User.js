@@ -73,6 +73,19 @@ userSchema.methods.gravatar = function(size) {
   var md5 = crypto.createHash('md5').update(this.email).digest('hex');
   return 'https://gravatar.com/avatar/' + md5 + '?s=' + size + '&d=retro';
 };
+userSchema.statics.initialAdmin = function() {
+   this.findOne({email:'admin@test.com'},function (err,doc) {
+       if(!doc){
+            User.create({
+               email:'admin@test.com',
+               password:'123456',
+               profile:{
+                   name:'admin'
+               }
+           })
+       }
+   })
+};
 
 var User = mongoose.model('User', userSchema);
 
