@@ -1,7 +1,7 @@
 require('styles/main.css');
 import React from 'react';
 import {connect} from 'react-redux';
-import {login,logout}  from '../redux/modules/auth';
+import {login,logout,uploadFile}  from '../redux/modules/auth';
 
 
  class LoginPage extends React.Component {
@@ -19,6 +19,12 @@ import {login,logout}  from '../redux/modules/auth';
   handleSubmit(event){
     event.preventDefault();
     this.props.dispatch(login(this.state.email,this.state.password));
+  }
+  handleUploadFile(event){
+    event.preventDefault();
+    var fd = new FormData()
+    fd.append('uploadFile', this.refs.uploadFile.files[0]);
+    this.props.dispatch(uploadFile(fd));
   }
   logoutClick(){
       this.props.dispatch(logout());
@@ -58,7 +64,14 @@ import {login,logout}  from '../redux/modules/auth';
         {user &&
         <div>
           <p>You are currently logged in as {user.name}.</p>
-
+          <form className="file-upload-form" method="POST" enctype="multipart/form-data" onSubmit={this.handleUploadFile.bind(this)}>
+           <div className="form-group">
+              <label htmlFor="uploadFile">Email address</label>
+              <input type="file" className="form-control" ref="uploadFile" name="uploadFile"/>
+           </div>
+            <button className="btn btn-success" onClick={this.handleUploadFile.bind(this)}><i className="fa fa-sign-in"/>{' '}上传
+            </button>
+          </form>
           <div>
             <button className="btn btn-danger" onClick={this.logoutClick}><i className="fa fa-sign-out"/>{' '}Log Out</button>
           </div>

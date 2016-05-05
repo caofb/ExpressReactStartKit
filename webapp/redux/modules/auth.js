@@ -118,6 +118,19 @@ export function login(email,password) {
         
    };
 }
+export function uploadFile(formData) {
+  return (dispatch,getState) => {
+        fetch('/account/file/upload', {
+           method: 'POST',
+           rawbody: formData
+        }).then(function(result) {
+         
+        }).catch(function(ex) {
+           
+        })
+        
+   };
+}
 function  logoutFail(error) {
     return {
         type: LOGOUT_FAIL,

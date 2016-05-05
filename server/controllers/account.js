@@ -48,5 +48,8 @@ router.get('/logout',function(req, res) {
   req.logout();
   res.redirect('/');
 })
+router.post('/file/upload',upload.single('uploadFile'),function(req, res, next) {
+   res.json({});
+})
 
 module.exports = router;

@@ -14,7 +14,18 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var expressValidator = require('express-validator');
 var multer = require('multer');
-var upload = multer({ dest: path.join(__dirname, 'uploads') });
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, 'uploads'));
+  },
+  filename: function (req, file, cb) {
+    cb(null,  file.originalname);
+  }
+})
+
+var upload = multer({ storage: storage });//multer({ dest: path.join(__dirname, 'uploads') });
+global.upload=upload;
 var userSchema=require('./server/models/User');
 
 /**
@@ -38,7 +49,7 @@ var app = express();
 /**
  * Connect to MongoDB.
  */
-mongoose.connect('mongodb://192.168.109.132:27017/test');
+mongoose.connect('mongodb://127.0.0.1:27017/test');
 mongoose.connection.on('error', function() {
   console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
   process.exit(1);
@@ -61,7 +72,7 @@ app.use(session({
   saveUninitialized: true,
   secret: process.env.SESSION_SECRET||'dfdffsddfs',
   store: new MongoStore({
-    url: 'mongodb://192.168.109.132:27017/test',
+    url: 'mongodb://127.0.0.1:27017/test',
     autoReconnect: true
   })
 }));
