@@ -43,6 +43,9 @@ body {
   max-width: 880px;
   padding: 0 15px;
 }
+.main{
+    margin-top: 40px;
+}
 .container .text-muted {
   margin: 20px 0px 20px 300px;
 }
