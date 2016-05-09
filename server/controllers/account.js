@@ -8,7 +8,7 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/loadAuth',function(req, res, next) {
-    return res.json(req.session.user || null);
+    return res.json(req.user || null);
 })
 /**
  * POST /login

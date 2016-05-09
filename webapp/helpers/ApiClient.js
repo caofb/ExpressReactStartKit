@@ -12,6 +12,7 @@ export default function fetchApi(url,options){
      url=formatUrl(url);
     options=options||{};
     options.method=options.method||'GET';
+    options.credentials='same-origin';
     if(options.method.toLowerCase()=='post'){       
         if(options.rawbody){
              options.body=options.rawbody;

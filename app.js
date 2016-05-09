@@ -14,6 +14,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var expressValidator = require('express-validator');
 var multer = require('multer');
+var cookieParser = require('cookie-parser');
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -49,7 +50,8 @@ var app = express();
 /**
  * Connect to MongoDB.
  */
-mongoose.connect('mongodb://127.0.0.1:27017/test');
+var mongodbUrl='mongodb://127.0.0.1:27017/test';
+mongoose.connect(mongodbUrl);
 mongoose.connection.on('error', function() {
   console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
   process.exit(1);
@@ -66,13 +68,15 @@ app.use(compress());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(expressValidator());
 app.use(session({
   resave: true,
   saveUninitialized: true,
-  secret: process.env.SESSION_SECRET||'dfdffsddfs',
+  secret: 'expressreactstartkit',
+  cookie: {secure: false, maxAge: 24*30*3600*1000}, //express-session maxAge使用毫秒
   store: new MongoStore({
-    url: 'mongodb://127.0.0.1:27017/test',
+    url: mongodbUrl,
     autoReconnect: true
   })
 }));
