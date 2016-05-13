@@ -10,6 +10,8 @@ const LOGOUT_SUCCESS = '/auth/LOGOUT_SUCCESS';
 const LOGOUT_FAIL = '/auth/LOGOUT_FAIL';
 
 const initialState = {
+  loggingIn: false,
+  user: null,
   loaded: false
 };
 
@@ -23,7 +25,7 @@ export default function reducer(state = initialState, action = {}) {
       return Object.assign({}, state,{
         loading: false,
         loaded: true,
-        user: action.result
+        user: action.user
       });
     case LOAD_FAIL:
       return Object.assign({}, state,{
@@ -68,17 +70,20 @@ export default function reducer(state = initialState, action = {}) {
 export function isLoaded(globalState) {
   return globalState.auth && globalState.auth.loaded;
 }
-function  loadFail(error) {
+export function  loadFail(error) {
     return {
         type: LOAD_FAIL,
         error
     };
 }
-function  loadSuccess(user) {
+export function  loadSuccess(user) {
     return {
         type: LOAD_SUCCESS,
         user
     };
+}
+export function loadAuth() {
+  return fetch('/account/loadAuth');        
 }
 export function load() {
   return (dispatch,getState) => {
@@ -96,10 +101,10 @@ function  loginFail(error) {
         error
     };
 }
-function  loginSuccess(result) {
+function  loginSuccess(user) {
     return {
         type: LOAD_SUCCESS,
-        result
+        user
     };
 }
 export function login(email,password) {
