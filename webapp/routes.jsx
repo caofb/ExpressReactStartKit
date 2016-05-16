@@ -29,6 +29,9 @@ function requireLogin(nextState, replace,cb) {
     });
     
   }
+  else{
+    cb();
+  }
 }
  return (
   <Route path="/" component={App}>

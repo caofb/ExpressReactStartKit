@@ -3,9 +3,12 @@ import { persistState } from 'redux-devtools';
 import thunk from 'redux-thunk';
 import rootReducer from '../reducers/index';
 import DevTools from '../containers/DevTools';
-
+import { routerMiddleware } from 'react-router-redux'
+import { browserHistory } from 'react-router'
+// Apply the middleware to the store
+const routeMiddleware = routerMiddleware(browserHistory)
 const finalCreateStore = compose(
-  applyMiddleware(thunk),
+  applyMiddleware(thunk,routeMiddleware),
   DevTools.instrument(),
   persistState(
     window.location.href.match(
