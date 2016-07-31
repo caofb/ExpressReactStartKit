@@ -25,6 +25,7 @@ let config = _.merge({
       filename: '../public/index.html',
       template: './public/indextemplate.html',
       alwaysWriteToDisk: true
+      
     }),
     new HtmlWebpackHarddiskPlugin(),
     new webpack.HotModuleReplacementPlugin(),
