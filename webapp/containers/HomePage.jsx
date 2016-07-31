@@ -24,7 +24,7 @@ class HomePageComponent extends React.Component {
       <div>     
       <div>
       <div className="page-header">
-        <h1>Express React Boilerplate</h1>
+        <h1>Express React Boilerplate fff</h1>
       </div>
       </div>
       </div>

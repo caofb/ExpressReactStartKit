@@ -10,6 +10,7 @@
     "dev": "concurrent --kill-others \"npm run watch-client\" \"npm run start-dev\"",
     "start-dev": "better-npm-run start-dev",
     "watch-client": "better-npm-run watch-client",
+    "build": "better-npm-run build --env=production",
     "test": "mocha --reporter spec --timeout 5000"
   },
   "betterScripts": {
@@ -21,9 +22,15 @@
       }
     },
     "watch-client": {
-      "command": "node ./webapp/devserver.js",
+      "command": "node ./webapp/tools/devserver.js",
       "env": {
         "NODE_ENV": "dev"
+      }
+    },
+    "build": {
+      "command": "node ./webapp/tools/build.js",
+      "env": {
+        "NODE_ENV": "production"
       }
     }
   },
@@ -75,6 +82,8 @@
     "eslint-loader": "^1.3.0",
     "eslint-plugin-react": "^4.2.3",
     "file-loader": "^0.8.5",
+    "html-webpack-harddisk-plugin": "0.0.2",
+    "html-webpack-plugin": "^2.22.0",
     "json-loader": "^0.5.4",
     "lodash": "^4.6.1",
     "minimist": "^1.2.0",

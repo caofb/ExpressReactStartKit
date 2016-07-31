@@ -16,6 +16,7 @@ if(args._.length > 0 && args._.indexOf('start') !== -1) {
   env = 'dev';
 }
 process.env.NODE_ENV = env;
+console.log(env)
 // Get available configurations
 var configs = {
   base: require(path.join(__dirname, 'webpack/base')),

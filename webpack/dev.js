@@ -8,7 +8,8 @@ let baseConfig = require('./base');
 
 // Add needed plugins here
 let BowerWebpackPlugin = require('bower-webpack-plugin');
-
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 let config = _.merge({
   entry: [
     'webpack-dev-server/client?http://localhost:8000',
@@ -19,6 +20,13 @@ let config = _.merge({
   target:'web',
   devtool: 'cheap-module-eval-source-map',
   plugins: [
+    new HtmlWebpackPlugin({
+      inject: true,
+      filename: '../public/index.html',
+      template: './public/indextemplate.html',
+      alwaysWriteToDisk: true
+    }),
+    new HtmlWebpackHarddiskPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new BowerWebpackPlugin({
